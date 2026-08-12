@@ -376,6 +376,132 @@
   .chip input{display:none;}
 
   /* ---------- SUBMIT ---------- */
+  /* ---------- MEDIA / BANNER REFERENCE SECTIONS (visually distinct family) ---------- */
+  .media-section{
+    background:var(--panel-raised);
+    border:1px solid var(--line-soft);
+    border-radius:22px;
+    padding:36px;
+    margin-top:8px;
+  }
+  .media-section .section-head{margin-bottom:26px;}
+  .media-section .section-badge .section-icon{
+    background:rgba(180,122,255,0.12);
+    border-color:var(--purple-dim);
+  }
+
+  .media-block{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:22px;
+    align-items:stretch;
+    padding-left:72px;
+  }
+  @media (max-width:760px){
+    .media-block{grid-template-columns:1fr;padding-left:0;}
+  }
+
+  .media-links{display:flex;flex-direction:column;gap:12px;}
+  .media-links label{
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--text-mid);
+    margin-bottom:2px;
+  }
+  .media-links input{
+    width:100%;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:11px;
+    padding:11px 13px;
+    color:var(--text-hi);
+    font-family:'Poppins',sans-serif;
+    font-size:13.5px;
+    outline:none;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  .media-links input::placeholder{color:var(--text-low);}
+  .media-links input:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 0 3px rgba(180,122,255,0.14);
+  }
+
+  .media-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .media-divider span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-low);
+    background:var(--panel-raised);
+    padding:4px 10px;
+    border-radius:100px;
+    border:1px solid var(--line);
+  }
+  @media (max-width:760px){
+    .media-divider{padding:4px 0;}
+  }
+
+  .media-upload{position:relative;}
+  .file-input{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+    z-index:2;
+  }
+  .upload-dropzone{
+    height:100%;
+    min-height:132px;
+    border:1.5px dashed var(--line);
+    border-radius:14px;
+    background:var(--panel);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-align:center;
+    padding:18px;
+    transition:border-color 0.2s, background 0.2s;
+  }
+  .upload-dropzone svg{width:26px;height:26px;color:var(--text-low);}
+  .upload-dropzone p{font-size:13px;color:var(--text-mid);font-weight:500;}
+  .upload-dropzone .hint{font-size:11.5px;color:var(--text-low);}
+  .media-upload:hover .upload-dropzone{border-color:var(--purple);background:rgba(180,122,255,0.05);}
+
+  .upload-preview{
+    height:100%;
+    min-height:132px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+    background:var(--panel);
+  }
+  .upload-preview img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .remove-img{
+    position:absolute;
+    top:8px;right:8px;
+    background:rgba(11,5,24,0.75);
+    color:var(--text-hi);
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:11px;
+    padding:5px 10px;
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+    z-index:3;
+  }
+
   .submit-row{
     padding:36px 0 10px;
     display:flex;
@@ -520,6 +646,24 @@
     text-transform:uppercase;color:#A79BC7;
   }
 
+  .summary-img{
+    width:100%;
+    max-height:220px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+  }
+
+  #pdfTemplate .pdf-img{
+    width:100%;
+    max-height:200px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:12px;
+    border:1px solid #E4DBFA;
+  }
+
   footer.page-footer{
     margin-top:60px;
     padding-top:24px;
@@ -601,6 +745,18 @@
       <a href="#sec-08" class="rail-link" data-target="sec-08" data-section="sec-08">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.3"/><rect x="14" y="3" width="7" height="7" rx="1.3"/><rect x="3" y="14" width="7" height="7" rx="1.3"/><rect x="14" y="14" width="7" height="7" rx="1.3"/></svg>
         <span class="label">Structure</span><span class="dot"></span>
+      </a>
+      <a href="#sec-09" class="rail-link" data-target="sec-09" data-section="sec-09">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+        <span class="label">Home Banner</span><span class="dot"></span>
+      </a>
+      <a href="#sec-10" class="rail-link" data-target="sec-10" data-section="sec-10">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+        <span class="label">PDP Banner</span><span class="dot"></span>
+      </a>
+      <a href="#sec-11" class="rail-link" data-target="sec-11" data-section="sec-11">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+        <span class="label">Collection Banner</span><span class="dot"></span>
       </a>
     </nav>
 
@@ -946,6 +1102,99 @@
           </div>
         </section>
 
+        <section class="section media-section" id="sec-09">
+          <div class="section-head">
+            <div class="section-badge">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+              <span class="section-num">09</span>
+            </div>
+            <div><h2>Home Page Banner References</h2><div class="sub">Show us what you want it to feel like — links or an image</div></div>
+          </div>
+          <div class="media-block">
+            <div class="media-links">
+              <label>Reference links (2–3)</label>
+              <input type="url" name="homeBannerLink1" placeholder="https://... a home banner you like">
+              <input type="url" name="homeBannerLink2" placeholder="https://...">
+              <input type="url" name="homeBannerLink3" placeholder="https://...">
+            </div>
+            <div class="media-divider"><span>or</span></div>
+            <div class="media-upload">
+              <input type="file" accept="image/*" class="file-input" data-target="home">
+              <div class="upload-dropzone" data-dropzone="home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <p>Click to attach an image</p>
+                <span class="hint">PNG or JPG, up to 5MB</span>
+              </div>
+              <div class="upload-preview" data-preview="home" style="display:none;">
+                <img data-img="home" src="" alt="Home banner reference">
+                <button type="button" class="remove-img" data-remove="home">Remove</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section media-section" id="sec-10">
+          <div class="section-head">
+            <div class="section-badge">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+              <span class="section-num">10</span>
+            </div>
+            <div><h2>PDP Banner References</h2><div class="sub">Product page hero or banner treatment you want to match</div></div>
+          </div>
+          <div class="media-block">
+            <div class="media-links">
+              <label>Reference links (2–3)</label>
+              <input type="url" name="pdpBannerLink1" placeholder="https://... a PDP banner you like">
+              <input type="url" name="pdpBannerLink2" placeholder="https://...">
+              <input type="url" name="pdpBannerLink3" placeholder="https://...">
+            </div>
+            <div class="media-divider"><span>or</span></div>
+            <div class="media-upload">
+              <input type="file" accept="image/*" class="file-input" data-target="pdp">
+              <div class="upload-dropzone" data-dropzone="pdp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <p>Click to attach an image</p>
+                <span class="hint">PNG or JPG, up to 5MB</span>
+              </div>
+              <div class="upload-preview" data-preview="pdp" style="display:none;">
+                <img data-img="pdp" src="" alt="PDP banner reference">
+                <button type="button" class="remove-img" data-remove="pdp">Remove</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section media-section" id="sec-11">
+          <div class="section-head">
+            <div class="section-badge">
+              <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5-4 4-3-3-6 6"/></svg>
+              <span class="section-num">11</span>
+            </div>
+            <div><h2>Collection Page Banner References</h2><div class="sub">How the category / listing page banner should look</div></div>
+          </div>
+          <div class="media-block">
+            <div class="media-links">
+              <label>Reference links (2–3)</label>
+              <input type="url" name="collectionBannerLink1" placeholder="https://... a collection banner you like">
+              <input type="url" name="collectionBannerLink2" placeholder="https://...">
+              <input type="url" name="collectionBannerLink3" placeholder="https://...">
+            </div>
+            <div class="media-divider"><span>or</span></div>
+            <div class="media-upload">
+              <input type="file" accept="image/*" class="file-input" data-target="collection">
+              <div class="upload-dropzone" data-dropzone="collection">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                <p>Click to attach an image</p>
+                <span class="hint">PNG or JPG, up to 5MB</span>
+              </div>
+              <div class="upload-preview" data-preview="collection" style="display:none;">
+                <img data-img="collection" src="" alt="Collection banner reference">
+                <button type="button" class="remove-img" data-remove="collection">Remove</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div class="submit-row">
           <p class="submit-note">You'll see a clean summary of everything you've entered right after this — download it as a PDF once it's ready.</p>
           <button type="submit" class="submit">Generate summary</button>
@@ -1041,7 +1290,72 @@
     });
   });
 
-  var RING_CIRCUMFERENCE = 2 * Math.PI * 18;
+  // Banner reference image uploads (Home / PDP / Collection)
+  var uploadedImages = { home: null, pdp: null, collection: null };
+  var bannerMeta = {
+    home: { label: 'Home Page Banner', links: ['homeBannerLink1','homeBannerLink2','homeBannerLink3'] },
+    pdp: { label: 'PDP Banner', links: ['pdpBannerLink1','pdpBannerLink2','pdpBannerLink3'] },
+    collection: { label: 'Collection Page Banner', links: ['collectionBannerLink1','collectionBannerLink2','collectionBannerLink3'] }
+  };
+
+  document.querySelectorAll('.file-input').forEach(function(input){
+    input.addEventListener('change', function(){
+      var key = input.getAttribute('data-target');
+      var file = input.files && input.files[0];
+      if(!file) return;
+      if(file.size > 5 * 1024 * 1024){
+        alert('That image is over 5MB — try a smaller file.');
+        input.value = '';
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(e){
+        uploadedImages[key] = e.target.result;
+        var previewImg = document.querySelector('img[data-img="'+key+'"]');
+        var previewBox = document.querySelector('[data-preview="'+key+'"]');
+        var dropzone = document.querySelector('[data-dropzone="'+key+'"]');
+        if(previewImg) previewImg.src = e.target.result;
+        if(previewBox) previewBox.style.display = 'block';
+        if(dropzone) dropzone.style.display = 'none';
+        updateProgress();
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  document.querySelectorAll('.remove-img').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-remove');
+      uploadedImages[key] = null;
+      var fileInput = document.querySelector('.file-input[data-target="'+key+'"]');
+      var previewBox = document.querySelector('[data-preview="'+key+'"]');
+      var dropzone = document.querySelector('[data-dropzone="'+key+'"]');
+      if(fileInput) fileInput.value = '';
+      if(previewBox) previewBox.style.display = 'none';
+      if(dropzone) dropzone.style.display = 'flex';
+      updateProgress();
+    });
+  });
+
+  function getBannerSummaryHtml(rowClass, imgClass){
+    var html = '';
+    Object.keys(bannerMeta).forEach(function(key){
+      var meta = bannerMeta[key];
+      var links = meta.links.map(function(name){ return getValue(name); }).filter(Boolean);
+      var image = uploadedImages[key];
+      if(links.length === 0 && !image) return;
+      var body = '';
+      if(image){
+        body += '<img class="'+imgClass+'" src="'+image+'" alt="'+meta.label+' reference">';
+      }
+      links.forEach(function(l){
+        body += '<div class="'+rowClass+'"><div class="k">Link</div><div class="v">'+l.replace(/</g,'&lt;')+'</div></div>';
+      });
+      html += '<div class="'+(rowClass === 'summary-row' ? 'summary-section' : 'pdf-section')+'"><h3>'+meta.label+'</h3>'+body+'</div>';
+    });
+    return html;
+  }
+
 
   function updateProgress(){
     var all = form.querySelectorAll('input[type="text"], input[type="url"], select, textarea');
@@ -1076,8 +1390,12 @@
       var hasValue = false;
       fields.forEach(function(f){
         if(f.type === 'checkbox'){ if(f.checked) hasValue = true; }
+        else if(f.type === 'file'){ /* handled via uploadedImages below */ }
         else if(f.value && f.value.trim()) hasValue = true;
       });
+      if(sec.id === 'sec-09' && uploadedImages.home) hasValue = true;
+      if(sec.id === 'sec-10' && uploadedImages.pdp) hasValue = true;
+      if(sec.id === 'sec-11' && uploadedImages.collection) hasValue = true;
       var link = document.querySelector('.rail-link[data-section="'+sec.id+'"]');
       if(link) link.classList.toggle('touched', hasValue);
     });
@@ -1117,6 +1435,8 @@
         html += '<div class="summary-section"><h3>'+sec.title+'</h3>'+rows+'</div>';
       }
     });
+    if(html) html += getBannerSummaryHtml('summary-row', 'summary-img');
+    else html = getBannerSummaryHtml('summary-row', 'summary-img');
     if(!html){
       html = '<div class="summary-section"><h3>No details captured</h3><div class="summary-row"><div class="v">Go back and fill in a few fields first.</div></div></div>';
     }
@@ -1158,6 +1478,7 @@
       }
     });
 
+    html += getBannerSummaryHtml('pdf-row', 'pdf-img');
     html += '<div class="pdf-footer">CRO Design Brief &middot; Powered by Troopod</div>';
 
     var template = document.getElementById('pdfTemplate');
