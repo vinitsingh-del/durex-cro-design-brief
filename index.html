@@ -600,52 +600,6 @@
   .download-pdf:hover{transform:translateY(-2px);}
   .download-pdf:disabled{opacity:0.5;cursor:wait;transform:none;}
 
-  /* Hidden light-theme template used only for PDF export */
-  #pdfTemplate{
-    position:absolute;
-    top:0; left:-9999px;
-    width:700px;
-    background:#ffffff;
-    color:#1B1130;
-    font-family:'Poppins',sans-serif;
-    padding:40px;
-  }
-  #pdfTemplate .pdf-header{
-    border-bottom:3px solid #B47AFF;
-    padding-bottom:16px;
-    margin-bottom:24px;
-  }
-  #pdfTemplate .pdf-eyebrow{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:#7C4FD1;
-    display:block;
-    margin-bottom:6px;
-  }
-  #pdfTemplate .pdf-title{font-size:24px;font-weight:800;color:#1B1130;}
-  #pdfTemplate .pdf-meta{font-size:11.5px;color:#7A6E99;margin-top:8px;}
-  #pdfTemplate .pdf-section{margin-bottom:20px;page-break-inside:avoid;}
-  #pdfTemplate .pdf-section h3{
-    font-family:'JetBrains Mono',monospace;
-    font-size:11.5px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:#7C4FD1;
-    border-bottom:1px solid #E4DBFA;
-    padding-bottom:8px;
-    margin-bottom:10px;
-  }
-  #pdfTemplate .pdf-row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:6px 0;font-size:12.5px;}
-  #pdfTemplate .pdf-row .k{color:#8A7DAE;}
-  #pdfTemplate .pdf-row .v{color:#1B1130;font-weight:500;white-space:pre-wrap;}
-  #pdfTemplate .pdf-footer{
-    margin-top:26px;padding-top:14px;border-top:1px solid #E4DBFA;
-    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.06em;
-    text-transform:uppercase;color:#A79BC7;
-  }
-
   .summary-img{
     width:100%;
     max-height:220px;
@@ -653,15 +607,6 @@
     border-radius:12px;
     margin-bottom:14px;
     border:1px solid var(--line);
-  }
-
-  #pdfTemplate .pdf-img{
-    width:100%;
-    max-height:200px;
-    object-fit:cover;
-    border-radius:10px;
-    margin-bottom:12px;
-    border:1px solid #E4DBFA;
   }
 
   footer.page-footer{
@@ -800,12 +745,12 @@
           </div>
           <div class="grid">
             <div class="field">
-              <label>Brand name <span class="req">*</span></label>
-              <input type="text" name="brandName" value="Durex India" required>
+              <label>Brand name</label>
+              <input type="text" name="brandName" value="Durex India">
             </div>
             <div class="field">
-              <label>Live URL being redesigned <span class="req">*</span></label>
-              <input type="url" name="siteUrl" placeholder="e.g. https://www.durexindia.com/pages/69-big-bang-sale" required>
+              <label>Live URL being redesigned</label>
+              <input type="url" name="siteUrl" placeholder="e.g. https://www.durexindia.com/pages/69-big-bang-sale">
             </div>
             <div class="field">
               <label>Primary colours (real hex, from live pages)</label>
@@ -861,8 +806,8 @@
           </div>
           <div class="grid">
             <div class="field">
-              <label>Primary goal <span class="req">*</span></label>
-              <select name="primaryGoal" required>
+              <label>Primary goal</label>
+              <select name="primaryGoal">
                 <option value="">Select one</option>
                 <option>Increase add-to-cart rate</option>
                 <option>Increase checkout completion</option>
@@ -896,8 +841,8 @@
           </div>
           <div class="grid">
             <div class="field full">
-              <label>Hero products / combos for this sale <span class="req">*</span></label>
-              <textarea name="skus" placeholder="e.g. Play Wild Wand, Intense Vibe Ring, Extra Time 10s, Real Feel Lube 50ml" required></textarea>
+              <label>Hero products / combos for this sale</label>
+              <textarea name="skus" placeholder="e.g. Play Wild Wand, Intense Vibe Ring, Extra Time 10s, Real Feel Lube 50ml"></textarea>
             </div>
             <div class="field">
               <label>Discount mechanic</label>
@@ -1228,9 +1173,7 @@
   </main>
 </div>
 
-<div id="pdfTemplate"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   var sections = [
     { title: "Brand & Visual Language", fields: [
@@ -1356,6 +1299,8 @@
     return html;
   }
 
+  var RING_CIRCUMFERENCE = 2 * Math.PI * 18;
+
 
   function updateProgress(){
     var all = form.querySelectorAll('input[type="text"], input[type="url"], select, textarea');
@@ -1452,62 +1397,170 @@
     window.scrollTo(0,0);
   });
 
+  function buildPdfDoc(){
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+    var marginX = 16;
+    var contentW = pageW - marginX * 2;
+    var y = 20;
+    var pageNum = 1;
+
+    var brand = getValue('brandName') || 'Brand';
+    var dateStr = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+
+    function footer(){
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(150, 140, 175);
+      doc.text('CRO Design Brief · Powered by Troopod', marginX, pageH - 10);
+      doc.text('Page ' + pageNum, pageW - marginX, pageH - 10, { align: 'right' });
+    }
+
+    function ensureSpace(needed){
+      if(y + needed > pageH - 18){
+        footer();
+        doc.addPage();
+        pageNum++;
+        y = 20;
+      }
+    }
+
+    // Header
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(124, 79, 209);
+    doc.text('CRO DESIGN BRIEF', marginX, y);
+    y += 8;
+    doc.setFontSize(18);
+    doc.setTextColor(27, 17, 48);
+    var titleLines = doc.splitTextToSize(pdfSafe(brand) + ' — Design & Conversion Brief', contentW);
+    doc.text(titleLines, marginX, y);
+    y += titleLines.length * 7 + 2;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5);
+    doc.setTextColor(122, 110, 153);
+    doc.text('Generated ' + dateStr + ' · Powered by Troopod', marginX, y);
+    y += 5;
+    doc.setDrawColor(180, 122, 255);
+    doc.setLineWidth(0.8);
+    doc.line(marginX, y, pageW - marginX, y);
+    y += 9;
+
+    function sectionTitle(title){
+      ensureSpace(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10.5);
+      doc.setTextColor(124, 79, 209);
+      doc.text(title.toUpperCase(), marginX, y);
+      y += 2;
+      doc.setDrawColor(228, 219, 250);
+      doc.setLineWidth(0.4);
+      doc.line(marginX, y, pageW - marginX, y);
+      y += 6;
+    }
+
+    function pdfSafe(str){
+      return String(str).replace(/₹/g, 'Rs. ');
+    }
+
+    function keyValueRow(k, v){
+      var labelW = 42;
+      v = pdfSafe(v);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(138, 125, 174);
+      var valueLines = doc.splitTextToSize(v, contentW - labelW);
+      var rowHeight = Math.max(valueLines.length * 5, 6) + 3;
+      ensureSpace(rowHeight);
+      doc.text(k, marginX, y);
+      doc.setFont('helvetica', 'medium');
+      doc.setTextColor(27, 17, 48);
+      doc.setFontSize(9.5);
+      doc.text(valueLines, marginX + labelW, y);
+      y += rowHeight;
+    }
+
+    sections.forEach(function(sec){
+      var rows = sec.fields.map(function(f){
+        var val = getValue(f[0]);
+        return val ? [f[1], val] : null;
+      }).filter(Boolean);
+      if(rows.length === 0) return;
+      sectionTitle(sec.title);
+      rows.forEach(function(r){ keyValueRow(r[0], r[1]); });
+      y += 4;
+    });
+
+    // Banner reference sections, including embedded images
+    Object.keys(bannerMeta).forEach(function(key){
+      var meta = bannerMeta[key];
+      var links = meta.links.map(function(name){ return getValue(name); }).filter(Boolean);
+      var image = uploadedImages[key];
+      if(links.length === 0 && !image) return;
+
+      sectionTitle(meta.label);
+
+      if(image){
+        try{
+          var props = doc.getImageProperties(image);
+          var imgW = contentW * 0.62;
+          var imgH = imgW * (props.height / props.width);
+          var maxImgH = 70;
+          if(imgH > maxImgH){ imgH = maxImgH; imgW = imgH * (props.width / props.height); }
+          ensureSpace(imgH + 6);
+          doc.addImage(image, props.fileType || 'JPEG', marginX, y, imgW, imgH);
+          y += imgH + 6;
+        }catch(e){
+          console.error('Could not embed banner image for', key, e);
+        }
+      }
+
+      links.forEach(function(l){ keyValueRow('Link', l); });
+      y += 4;
+    });
+
+    footer();
+    return { doc: doc, brand: brand };
+  }
+
+  function fallbackPrintPdf(){
+    // Zero-dependency fallback: opens the browser print dialog pre-scoped to the summary,
+    // so "Save as PDF" always works even if the CDN library failed to load.
+    var printCss = document.createElement('style');
+    printCss.id = 'printOnlyStyle';
+    printCss.textContent = '@media print { body * { visibility:hidden; } ' +
+      '#summaryPanel, #summaryPanel * { visibility:visible; } ' +
+      '#summaryPanel { position:absolute; top:0; left:0; width:100%; background:#fff; } ' +
+      '.summary-actions { display:none !important; } }';
+    document.head.appendChild(printCss);
+    window.print();
+    setTimeout(function(){ printCss.remove(); }, 1000);
+  }
+
   document.getElementById('downloadPdfBtn').addEventListener('click', function(){
     var btn = this;
     btn.disabled = true;
     btn.textContent = 'Preparing PDF...';
 
-    var brand = getValue('brandName') || 'Brand';
-    var dateStr = new Date().toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
-
-    var html = '<div class="pdf-header">'
-      + '<span class="pdf-eyebrow">CRO Design Brief</span>'
-      + '<div class="pdf-title">'+brand.replace(/</g,'&lt;')+' — Design &amp; Conversion Brief</div>'
-      + '<div class="pdf-meta">Generated '+dateStr+' &middot; Powered by Troopod</div>'
-      + '</div>';
-
-    sections.forEach(function(sec){
-      var rows = '';
-      sec.fields.forEach(function(f){
-        var val = getValue(f[0]);
-        if(!val) return;
-        rows += '<div class="pdf-row"><div class="k">'+f[1]+'</div><div class="v">'+val.replace(/</g,'&lt;')+'</div></div>';
-      });
-      if(rows){
-        html += '<div class="pdf-section"><h3>'+sec.title+'</h3>'+rows+'</div>';
+    setTimeout(function(){
+      try{
+        if(!window.jspdf || !window.jspdf.jsPDF){
+          throw new Error('jsPDF failed to load from CDN');
+        }
+        var built = buildPdfDoc();
+        var filename = built.brand.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') + '-cro-brief.pdf';
+        built.doc.save(filename);
+        btn.disabled = false;
+        btn.textContent = 'Download as PDF';
+      }catch(err){
+        console.error('PDF generation failed, falling back to print dialog:', err);
+        fallbackPrintPdf();
+        btn.disabled = false;
+        btn.textContent = 'Download as PDF';
       }
-    });
-
-    html += getBannerSummaryHtml('pdf-row', 'pdf-img');
-    html += '<div class="pdf-footer">CRO Design Brief &middot; Powered by Troopod</div>';
-
-    var template = document.getElementById('pdfTemplate');
-    template.innerHTML = html;
-
-    var filename = brand.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') + '-cro-brief.pdf';
-
-    var opt = {
-      margin: 10,
-      filename: filename,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true, scrollX: 0, scrollY: 0, windowWidth: 700 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['css', 'legacy'] }
-    };
-
-    // Give the browser a frame to lay out the injected content before html2canvas measures it
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        html2pdf().set(opt).from(template).save().then(function(){
-          btn.disabled = false;
-          btn.textContent = 'Download as PDF';
-        }).catch(function(err){
-          console.error('PDF generation failed', err);
-          btn.disabled = false;
-          btn.textContent = 'Download as PDF';
-        });
-      });
-    });
+    }, 50);
   });
 </script>
 </body>
